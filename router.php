@@ -147,9 +147,13 @@ if (!(isset($_GET['c']) && isset($_GET['a']))) {
                     $id = $_GET[('id')];
                     $ivaController->update($id);
                     break;
-                case 'delete':
+                case 'emvigor':
                     $id = $_GET[('id')];
-                    $ivaController->delete($id);
+                    $ivaController->emVigor($id);
+                    break;
+                case 'naovigor':
+                    $id = $_GET[('id')];
+                    $ivaController->naoVigor($id);
                     break;
             }
             break;
