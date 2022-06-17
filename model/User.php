@@ -36,7 +36,9 @@ class User extends \ActiveRecord\Model
 
 
     static $validates_inclusion_of = array(
-        array('role', 'in' => array('administrador', 'funcionario', 'cliente'))
+        array('role', 'in' => array('administrador', 'funcionario', 'cliente')),
+        array('estado', 'in' => array('ativo', 'banido'))
+
     );
 
 

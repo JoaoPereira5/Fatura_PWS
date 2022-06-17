@@ -1,62 +1,147 @@
-<?php
-require_once './views/layouts/headeradmin.php';
-?>
+<?php require_once './views/layouts/headerbackoffice.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="./public/css/index.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administrador</title>
 </head>
+<body class="hold-transition sidebar-mini">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row ml-5">
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?= FuncionarioController::actionTotalFaturasEmitidas() ?></h3>
 
-<div class="main">
-    <div class="row">
-        <div class="col-9 offset-2">
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title">Lista de Clientes</p>
-                </div>
-                <?php if($users != null){ ?>
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Telefone</th>
-                            <th scope="col">Nif</th>
-                            <th scope="col">Role</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($users as $user){?>
-                        <tr>
-                            <th scope="row" ><?= $user->id ?></th>
-                            <td><?= $user->username ?></td>
-                            <td><?= $user->email ?></td>
-                            <td><?= $user->telefone ?></td>
-                            <td><?= $user->nif ?></td>
-                            <td><?= $user->role ?></td>
-                            <td><a href="router.php?c=user&a=show&id=<?=$user->id ?>"><i class="fa fa-eye" aria-hidden="true"> </i></a>
-                            </td>
-                            <td><a href="router.php?c=user&a=edit&id=<?=$user->id ?>"><i class="fa fa-pencil" aria-hidden="true"> </i></a>
-                            </td>
-                            <td><a href="router.php?c=user&a=delete&id=<?=$user->id ?>"><i class="fa fa-trash" aria-hidden="true"> </i></a>
-                            </td>
-                            <?php }?>
-                        </tr>
-                        <?php } else{ ?>
-                        </tbody>
-                    </table>
-                    <div class="null">
-                        <h5>Não existem utilizadores Clientes na aplicação</h5>
+                            <p>Total Faturas Emitidas pelo Funcionário: <?= $_SESSION["USER_USERNAME"]?></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="" class="small-box-footer"> <i class="fas"></i></a>
                     </div>
-                    <?php }?>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3><?= FuncionarioController::actionTotalFaturasCanceladas() ?></h3>
+
+                            <p>Total Faturas Canceladas pelo Funcionário: <?= $_SESSION["USER_USERNAME"]?></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> <i class="fas"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-dark">
+                        <div class="inner">
+                            <h3><?= AdminController::actionTotalProdutos()?></h3>
+
+                            <p>Total Produtos com stock maior de "0"</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> <i class="fas"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-maroon">
+                        <div class="inner">
+                            <h3><?=AdminController::actionTotalTaxasIvaVigor() ?>
+                            </h3>
+
+                            <p>Total Taxas de Iva em Vigor</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"><i class="fas"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3><?=AdminController::actionTotalTaxasIvaDesatualizadas() ?>
+                            </h3>
+
+                            <p>Total Taxas de Iva Desatualizadas</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"><i class="fas"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3><?= FuncionarioController::actionTotalClientesAtivos() ?></h3>
+                            <p>Total Clientes Ativos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> <i class="fas"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-gradient">
+                        <div class="inner">
+                            <h3><?= FuncionarioController::actionTotalClientesBanidos() ?></h3>
+                            <p>Total Clientes Banidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> <i class="fas"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3><?= AdminController::actionEmpresa() ?></h3>
+                            <p>Empresa Registada</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> <i class="fas"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
+</body>
+</html>
+<?php require_once './views/layouts/footer.php'; ?>

@@ -18,30 +18,34 @@ class IvaController extends BaseAuthController
         $this->renderView('iva/index', ['ivas' => $ivas]);
     }
 
-
-
     public function create()
     {
         $this->loginFilter($this->auth, ['funcionario','administrador']);
 
-        $this->renderView('iva/create');
+        static $estados = [
+        'sim' => 'Em Vigor',
+        'nao' => 'Desatualizado'
+        ];
+
+        $this->renderView('iva/create', ['estados' => $estados]);
     }
 
 
     public function store()
     {
         $this->loginFilter($this->auth, ['funcionario', 'administrador']);
+        static $estados = [
+            'sim' => 'Em Vigor',
+            'nao' => 'Desatualizado'
+        ];
         $iva = new Iva($_POST);
         if ($iva->is_valid()) {
             $iva->save();
-
             $this->redirectToRoute('iva', 'index');
         } else {
-            $this->renderView('iva/create', ['iva' => $iva]);
+            $this->renderView('iva/create', ['iva' => $iva, 'estados' => $estados]);
         }
     }
-
-
 
     public function show($id)
     {
@@ -55,8 +59,6 @@ class IvaController extends BaseAuthController
             $this->renderView('iva/show', ['iva' => $iva]);
         }
     }
-
-
 
     public function edit($id)
     {

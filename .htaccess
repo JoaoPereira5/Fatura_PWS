@@ -1,6 +1,7 @@
 options -indexes
 order deny,allow
 deny from all
+#php_flag display_errors on
 <Files "router.php">
 allow from all
 </Files>

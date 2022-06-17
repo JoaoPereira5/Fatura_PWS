@@ -1,6 +1,9 @@
 {
     "require": {
         "nesbot/carbon": "^2.57",
-        "php-activerecord/php-activerecord": "^1.2"
+        "php-activerecord/php-activerecord": "^1.2",
+        "almasaeed2010/adminlte": "~3.2",
+        "dompdf/dompdf": "^1.2",
+        "swiftmailer/swiftmailer": "6.0"
     }
 }

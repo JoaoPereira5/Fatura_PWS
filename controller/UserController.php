@@ -10,11 +10,10 @@ class UserController extends BaseAuthController
     public function index()
     {
         $this->loginFilter($this->auth, ['administrador']);
-        $users = User::all();
+        $users = User::all(array('conditions' => array('role != ? ', 'administrador')));
         $this->renderView('user/index', ['users' => $users]);
 
     }
-
 
     public function create()
     {
@@ -23,12 +22,12 @@ class UserController extends BaseAuthController
         $this->renderView('user/create');
     }
 
-
     public function store()
     {
         $this->loginFilter($this->auth, ['administrador']);
         $user = new User($_POST);
         $user->role = 'funcionario';
+        $user->estado = 'ativo';
         if ($user->is_valid()) {
             $user->save();
 
@@ -73,6 +72,7 @@ class UserController extends BaseAuthController
         $user = User::find([$id]);
         $user->update_attributes($_POST);
         if ($user->is_valid()) {
+            //$user->password = md5($_POST["password"]);
             $user->save();
             $this->redirectToRoute('user', 'index');
         } else {
@@ -80,12 +80,56 @@ class UserController extends BaseAuthController
         }
     }
 
+    public function profile($id)
+    {
+        $this->loginFilter($this->auth, ['administrador', 'funcionario', 'cliente']);
 
-    public function delete($id)
+        $user = User::find([$id]);
+
+        $this->renderView('user/profile', ['user' => $user]);
+
+    }
+
+    public function profileUpdate($id)
+    {
+        $this->loginFilter($this->auth, ['cliente', 'administrador', 'funcionario']);
+        $user = User::find([$id]);
+        $user->update_attributes($_POST);
+        if ($user->is_valid()) {
+            //$user->password = md5($_POST['password']);
+            $user->save();
+
+            if(Auth::getUserLoggedRole() == 'cliente') {
+                $this->redirectToRoute('cliente', 'index');
+            } elseif (Auth::getUserLoggedRole() == 'funcionario'){
+                $this->redirectToRoute('funcionario', 'index');
+            }else{
+                $this->redirectToRoute('admin', 'index');
+            }
+
+        } else {
+            $this->renderView('user/profile', ['user' => $user]);
+        }
+    }
+
+
+
+    public function ativarUser($id)
     {
         $this->loginFilter($this->auth, ['administrador']);
         $user = User::find([$id]);
-        $user->delete();
+        $user->estado = 'ativo';
+        $user->save();
+        //$iva->update_attributes(['vigor' => 'nao']);
+        $this->redirectToRoute('user', 'index');
+    }
+
+    public function banirUser($id)
+    {
+        $this->loginFilter($this->auth, ['administrador']);
+        $user = User::find([$id]);
+        $user->estado = 'banido';
+        $user->save();
         $this->redirectToRoute('user', 'index');
     }
 }
